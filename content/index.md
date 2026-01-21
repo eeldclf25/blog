@@ -1,7 +1,6 @@
 ---
-title: Ninari 기술 블로그
+title: Main Page
 publish: "true"
 ---
 
-대문은 어떻게 작성할까
-테스트1
+If you are reading this text, the build process has completed successfully.
