@@ -35,11 +35,11 @@ export const defaultContentPageLayout: PageLayout = {
           grow: true,
         },
         { Component: Component.Darkmode() },
-        { Component: Component.ReaderMode() },
+        // { Component: Component.ReaderMode() }, // 읽기모드 버튼 비활성화
       ],
     }),
     Component.Explorer({
-      title: "카테고리",
+      title: "Categories",
       folderDefaultState: "open",
       folderClickBehavior: "link",
       useSavedState: false,
@@ -49,7 +49,7 @@ export const defaultContentPageLayout: PageLayout = {
     }),
   ],
   right: [
-    // Component.Graph(),
+    // Component.Graph(), // 오른쪽 사이드바 그래프 비활성화
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),
   ],
@@ -72,7 +72,7 @@ export const defaultListPageLayout: PageLayout = {
       ],
     }),
     Component.Explorer({
-      title: "카테고리",
+      title: "Categories",
       folderDefaultState: "open",
       folderClickBehavior: "link",
       useSavedState: false,
