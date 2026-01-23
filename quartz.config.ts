@@ -55,6 +55,7 @@ const config: QuartzConfig = {
   },
   plugins: {
     transformers: [
+      Plugin.ImagePaths(),
       Plugin.FrontMatter(),
       Plugin.CreatedModifiedDate({
         priority: ["frontmatter", "git", "filesystem"],
