@@ -42,6 +42,7 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options>> = (userOpts) 
           return (tree: Root, file) => {
             const curSlug = simplifySlug(file.data.slug!)
             const outgoing: Set<SimpleSlug> = new Set()
+            const assets: Set<FullSlug> = new Set()
 
             const transformOptions: TransformOptions = {
               strategy: opts.markdownLinkResolution,
@@ -153,11 +154,16 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options>> = (userOpts) 
                     transformOptions,
                   )
                   node.properties.src = dest
+
+                  const url = new URL(dest, "https://base.com/" + stripSlashes(curSlug, true))
+                  const full = decodeURIComponent(stripSlashes(url.pathname, true)) as FullSlug
+                  assets.add(full)
                 }
               }
             })
 
             file.data.links = [...outgoing]
+            file.data.assets = [...assets]
           }
         },
       ]
@@ -168,5 +174,6 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options>> = (userOpts) 
 declare module "vfile" {
   interface DataMap {
     links: SimpleSlug[]
+    assets: FullSlug[]
   }
 }

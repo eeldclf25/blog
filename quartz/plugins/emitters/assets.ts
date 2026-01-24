@@ -28,13 +28,22 @@ const copyFile = async (argv: Argv, fp: FilePath) => {
 export const Assets: QuartzEmitterPlugin = () => {
   return {
     name: "Assets",
-    async *emit({ argv, cfg }) {
+    async *emit({ argv, cfg }, content) {
       const fps = await filesToCopy(argv, cfg)
+      const uas = new Set<string>()
+
+      for (const [_, file] of content) {
+        file.data.assets?.forEach((a) => uas.add(a))
+        file.data.links?.forEach((l) => uas.add(l))
+      }
+
       for (const fp of fps) {
-        yield copyFile(argv, fp)
+        if (uas.has(fp)) {
+          yield copyFile(argv, fp)
+        }
       }
     },
-    async *partialEmit(ctx, _content, _resources, changeEvents) {
+    async *partialEmit(ctx, content, _resources, changeEvents) {
       for (const changeEvent of changeEvents) {
         const ext = path.extname(changeEvent.path)
         if (ext === ".md") continue
@@ -45,6 +54,23 @@ export const Assets: QuartzEmitterPlugin = () => {
           const name = slugifyFilePath(changeEvent.path)
           const dest = joinSegments(ctx.argv.output, name) as FilePath
           await fs.promises.unlink(dest)
+        }
+      }
+
+      const mdChanges = changeEvents.filter((e) => path.extname(e.path) === ".md")
+      if (mdChanges.length > 0) {
+        const fps = await filesToCopy(ctx.argv, ctx.cfg)
+        const uas = new Set<string>()
+
+        for (const [_, file] of content) {
+          file.data.assets?.forEach((a) => uas.add(a))
+          file.data.links?.forEach((l) => uas.add(l))
+        }
+
+        for (const fp of fps) {
+          if (uas.has(fp)) {
+            yield copyFile(ctx.argv, fp)
+          }
         }
       }
     },

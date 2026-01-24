@@ -5,7 +5,7 @@ import { slugifyFilePath } from "../../util/path"
 
 export const ImagePaths: QuartzTransformerPlugin = () => {
   return {
-    name: "FixImagePaths",
+    name: "ImagePaths",
     markdownPlugins() {
       return [
         () => (tree) => {
