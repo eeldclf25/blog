@@ -38,7 +38,7 @@ export const Assets: QuartzEmitterPlugin = () => {
       }
 
       for (const fp of fps) {
-        if (uas.has(fp)) {
+        if (uas.has(slugifyFilePath(fp))) {
           yield copyFile(argv, fp)
         }
       }
@@ -68,7 +68,7 @@ export const Assets: QuartzEmitterPlugin = () => {
         }
 
         for (const fp of fps) {
-          if (uas.has(fp)) {
+          if (uas.has(slugifyFilePath(fp))) {
             yield copyFile(ctx.argv, fp)
           }
         }
