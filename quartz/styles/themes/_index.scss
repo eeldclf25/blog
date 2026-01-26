@@ -695,7 +695,7 @@ body {
     text-decoration: none solid rgb(216, 222, 233);
   }
 
-  .explorer .explorer-content {
+  .explorer .explorer-content { 
     background-color: light-dark(rgb(236, 239, 244), rgb(59, 66, 82));
   }
 
@@ -771,7 +771,7 @@ body {
 
   .explorer .explorer-content ul.explorer-ul li a {
     color: light-dark(rgb(59, 66, 82), rgb(229, 233, 240));
-    cursor: default;
+    cursor: pointer;
     font-family:
       ui-sans-serif,
       -apple-system,
