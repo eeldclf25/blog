@@ -40,6 +40,9 @@ export default ((opts?: Partial<FolderContentOptions>) => {
       folder.children
         .map((node) => {
           // regular file, proceed
+          if (node.data?.frontmatter?.tags?.includes("hide")) {
+            return undefined
+          }
           if (node.data) {
             return node.data
           }
