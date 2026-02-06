@@ -77,7 +77,12 @@ export function slugifyFilePath(fp: FilePath, excludeExt?: boolean): FullSlug {
     ext = ""
   }
 
-  let slug = sluggify(withoutFileExt)
+  const parts = withoutFileExt.split("/")
+  const fileName = parts.pop()!
+  const cleanedFileName = fileName.replace(/^\d{4}-\d{2}-\d{2}\s?/, "")
+  const cleanedPath = [...parts, cleanedFileName].join("/")
+
+  let slug = sluggify(cleanedPath)
 
   // treat _index as index
   if (endsWith(slug, "_index")) {

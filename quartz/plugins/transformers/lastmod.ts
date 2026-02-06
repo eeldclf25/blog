@@ -5,15 +5,16 @@ import path from "path"
 import { styleText } from "util"
 
 export interface Options {
-  priority: ("frontmatter" | "git" | "filesystem")[]
+  priority: ("filename" | "frontmatter" | "git" | "filesystem")[]
 }
 
 const defaultOptions: Options = {
-  priority: ["frontmatter", "git", "filesystem"],
+  priority: ["filename", "frontmatter", "git", "filesystem"],
 }
 
 // YYYY-MM-DD
 const iso8601DateOnlyRegex = /^\d{4}-\d{2}-\d{2}$/
+const filenameDateRegex = /\d{4}-\d{2}-\d{2}/
 
 function coerceDate(fp: string, d: any): Date {
   // check ISO8601 date-only format
@@ -88,6 +89,13 @@ export const CreatedModifiedDate: QuartzTransformerPlugin<Partial<Options>> = (u
                       `\nWarning: ${file.data.filePath!} isn't yet tracked by git, dates will be inaccurate`,
                     ),
                   )
+                }
+              } else if (source === "filename") {
+                const match = path.basename(fp).match(filenameDateRegex)
+                if (match) {
+                  created ||= match[0]
+                  modified ||= match[0]
+                  published ||= match[0]
                 }
               }
             }

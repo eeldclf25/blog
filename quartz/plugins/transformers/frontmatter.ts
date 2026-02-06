@@ -74,7 +74,10 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options>> = (userOpts)
             if (data.title != null && data.title.toString() !== "") {
               data.title = data.title.toString()
             } else {
-              data.title = file.stem ?? i18n(cfg.configuration.locale).propertyDefaults.title
+              data.title = (file.stem ?? i18n(cfg.configuration.locale).propertyDefaults.title).replace(
+                /^\d{4}-\d{2}-\d{2}\s?/,
+                "",
+              )
             }
 
             const tags = coerceToArray(coalesceAliases(data, ["tags", "tag"]))
@@ -137,20 +140,20 @@ declare module "vfile" {
     frontmatter: { [key: string]: unknown } & {
       title: string
     } & Partial<{
-        tags: string[]
-        aliases: string[]
-        modified: string
-        created: string
-        published: string
-        description: string
-        socialDescription: string
-        publish: boolean | string
-        draft: boolean | string
-        lang: string
-        enableToc: string
-        cssclasses: string[]
-        socialImage: string
-        comments: boolean | string
-      }>
+      tags: string[]
+      aliases: string[]
+      modified: string
+      created: string
+      published: string
+      description: string
+      socialDescription: string
+      publish: boolean | string
+      draft: boolean | string
+      lang: string
+      enableToc: string
+      cssclasses: string[]
+      socialImage: string
+      comments: boolean | string
+    }>
   }
 }

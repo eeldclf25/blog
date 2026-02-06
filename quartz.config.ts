@@ -58,7 +58,7 @@ const config: QuartzConfig = {
       Plugin.ImagePaths(),
       Plugin.FrontMatter(),
       Plugin.CreatedModifiedDate({
-        priority: ["frontmatter", "git", "filesystem"],
+        priority: ["filename", "frontmatter", "git", "filesystem"],
       }),
       Plugin.SyntaxHighlighting({
         theme: {
