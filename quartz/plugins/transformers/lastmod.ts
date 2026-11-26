@@ -14,7 +14,7 @@ const defaultOptions: Options = {
 
 // YYYY-MM-DD
 const iso8601DateOnlyRegex = /^\d{4}-\d{2}-\d{2}$/
-const filenameDateRegex = /\d{4}-\d{2}-\d{2}/
+const filenameDateRegex = /\d{4}-\d{2}-\d{2}|^\d{8}(?!\d)/
 
 function coerceDate(fp: string, d: any): Date {
   // check ISO8601 date-only format
@@ -93,9 +93,10 @@ export const CreatedModifiedDate: QuartzTransformerPlugin<Partial<Options>> = (u
               } else if (source === "filename") {
                 const match = path.basename(fp).match(filenameDateRegex)
                 if (match) {
-                  created ||= match[0]
-                  modified ||= match[0]
-                  published ||= match[0]
+                  const date = match[0].replace(/^(\d{4})(\d{2})(\d{2})$/, "$1-$2-$3")
+                  created ||= date
+                  modified ||= date
+                  published ||= date
                 }
               }
             }

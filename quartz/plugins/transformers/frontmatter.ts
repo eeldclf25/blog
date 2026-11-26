@@ -75,7 +75,7 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options>> = (userOpts)
               data.title = data.title.toString()
             } else {
               data.title = (file.stem ?? i18n(cfg.configuration.locale).propertyDefaults.title).replace(
-                /^\d{4}-\d{2}-\d{2}\s?/,
+                /^(?:\d{4}-\d{2}-\d{2}|\d{8}(?!\d))\s?/,
                 "",
               )
             }
